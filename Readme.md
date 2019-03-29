@@ -11,11 +11,11 @@
 
 Для сборки тестовых примеров, на Intel архитектуре, можно запустить
 
-    gcc -DLIBAKRYPT_LITTLE_ENDIAN=ON -I./ ak_*.c test_hash.c -o testhash
+    gcc -DLIBAKRYPT_LITTLE_ENDIAN=ON -I./source source/ak_*.c test/test_hash.c -o test_hash
 
 Для сборки на big endian архитектуре [см. сайт ellcc.org](http://ellcc.org) можно запустить
 
-    ecc -target mips32r2-linux -I./ ak_*.c test_hash.c -o testhash
+    ecc -target mips32r2-linux -I./source source/ak_*.c test/test_hash.c -o test_hash
 
 Прилагаемый Makefile можно использовать для сборки тестовых примеров следующим образом
 
