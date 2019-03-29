@@ -1,2 +1,0 @@
-gcc -DLIBAKRYPT_LITTLE_ENDIAN=ON -I./ ak_*.c test_hash.c -o testhash
-ecc -target mips32r2-linux -I./ ak_*.c test_hash.c -o testhash

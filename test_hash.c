@@ -1,6 +1,6 @@
  #include <stdio.h>
  #include <stdlib.h>
- #include <ak_hash.h>
+ #include <libakrypt.h>
 
  int main( void )
 {
