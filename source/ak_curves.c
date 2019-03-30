@@ -50,7 +50,7 @@
      py = "32879423AB1A0375895786C4BB46E9565FDE0B5344766740AF268ADB32322E5C",
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_tc26_gost_3410_2012_256_paramSetA = {
+ struct wcurve id_tc26_gost_3410_2012_256_paramSetA = {
   ak_mpzn256_size,
   4, /* cofactor */
   { 0x6d0078e62fc81048LL, 0x94db4f98bfb73698LL, 0x75e9b60631449efdLL, 0xca0709cc398e1cd1LL }, /* a */
@@ -80,7 +80,7 @@
      qx = "8D91E471E0989CDA27DF505A453F2B7635294F2DDF23E3B122ACC99C9E9F1E14"
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_rfc4357_gost_3410_2001_paramSetA = {
+ struct wcurve id_rfc4357_gost_3410_2001_paramSetA = {
   ak_mpzn256_size,
   1,
   { 0xfffffffffffff65cLL, 0xffffffffffffffffLL, 0xffffffffffffffffLL, 0xffffffffffffffffLL }, /* a */
@@ -98,7 +98,6 @@
   0x9ee6ea0b57c7da65LL, /* nq */
   "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD97"
  };
- #define id_tc26_gost_3410_2012_256_paramSetB ( id_rfc4357_gost_3410_2001_paramSetA )
 
 /* ----------------------------------------------------------------------------------------------- */
 /*! \brief Параметры 256-ти битной эллиптической кривой, определяемые RFC-4357, set B (вариант КриптоПро). */
@@ -111,7 +110,7 @@
      py = "3FA8124359F96680B83D1C3EB2C070E5C545C9858D03ECFB744BF8D717717EFC"
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_rfc4357_gost_3410_2001_paramSetB = {
+ struct wcurve id_rfc4357_gost_3410_2001_paramSetB = {
   ak_mpzn256_size,
   1,
   { 0x0000000000004b96LL, 0x0000000000000000LL, 0x0000000000000000LL, 0x0000000000000000LL }, /* a */
@@ -129,7 +128,6 @@
   0xca89614990611a91LL, /* nq */
   "8000000000000000000000000000000000000000000000000000000000000C99"
  };
- #define id_tc26_gost_3410_2012_256_paramSetC ( id_rfc4357_gost_3410_2001_paramSetB )
 
 /* ----------------------------------------------------------------------------------------------- */
 /*! \brief Параметры 256-ти битной эллиптической кривой, определяемые RFC-4357, set C (вариант КриптоПро). */
@@ -142,7 +140,7 @@
       py = "41ECE55743711A8C3CBF3783CD08C0EE4D4DC440D4641A8F366E550DFDB3BB67"
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_rfc4357_gost_3410_2001_paramSetC = {
+ struct wcurve id_rfc4357_gost_3410_2001_paramSetC = {
   ak_mpzn256_size,
   1,
   { 0x5ffcd69d0ae34c07LL, 0x0d9628a05ad19921LL, 0x5799e9d81848eb56LL, 0x0a1ce1dcc49b8526LL }, /* a */
@@ -160,7 +158,6 @@
   0xa1c6af0a552f7577LL, /* nq */
   "9B9F605F5A858107AB1EC85E6B41C8AACF846E86789051D37998F7B9022D759B"
  };
- #define id_tc26_gost_3410_2012_256_paramSetD ( id_rfc4357_gost_3410_2001_paramSetC )
 
 /* ----------------------------------------------------------------------------------------------- */
 /*! \brief Параметры 512-ти битной эллиптической кривой из тестового примера ГОСТ Р 34.10-2012 (Приложение А.2). */
@@ -173,7 +170,7 @@
      py = "2BB312A43BD2CE6E0D020613C857ACDDCFBF061E91E5F2C3F32447C259F39B2C83AB156D77F1496BF7EB3351E1EE4E43DC1A18B91B24640B6DBB92CB1ADD371E",
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_tc26_gost_3410_2012_512_paramSetTest = {
+ struct wcurve id_tc26_gost_3410_2012_512_paramSetTest = {
   ak_mpzn512_size,
   1,
   { 0xd029a50f056849c5, 0xc102fa1830a665e5, 0x93678fa569b3c155, 0x61dff2a95e2108c5, 0x3500e30d3e698dd3, 0xb9cafa8506ed8887, 0xb1b73df28851b571, 0x3e261f7e31fc8188 }, /* a */
@@ -203,7 +200,7 @@
      py = "7503CFE87A836AE3A61B8816E25450E6CE5E1C93ACF1ABC1778064FDCBEFA921DF1626BE4FD036E93D75E6A50E3A41E98028FE5FC235F5B889A589CB5215F2A4",
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_tc26_gost_3410_2012_512_paramSetA = {
+ struct wcurve id_tc26_gost_3410_2012_512_paramSetA = {
   ak_mpzn512_size,
   1,
   { 0xfffffffffffff71c, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff }, /* a */
@@ -233,7 +230,7 @@
      py = "1A8F7EDA389B094C2C071E3647A8940F3C123B697578C213BE6DD9E6C8EC7335DCB228FD1EDF4A39152CBCAAF8C0398828041055F94CEEEC7E21340780FE41BD",
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_tc26_gost_3410_2012_512_paramSetB = {
+ struct wcurve id_tc26_gost_3410_2012_512_paramSetB = {
   ak_mpzn512_size,
   1,
   { 0x000000000000029a, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000 }, /* a */
@@ -263,7 +260,7 @@
      py = "F5CE40D95B5EB899ABBCCFF5911CB8577939804D6527378B8C108C3D2090FF9BE18E2D33E3021ED2EF32D85822423B6304F726AA854BAE07D0396E9A9ADDC40F",
     \endcode                                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static struct wcurve id_tc26_gost_3410_2012_512_paramSetC = {
+ struct wcurve id_tc26_gost_3410_2012_512_paramSetC = {
   ak_mpzn512_size,
   4,
   { 0xd341ab3699869915, 0x3d6c9273ccebc4c1, 0x486b484c83cb0726, 0x9a8145b812d1a7b0, 0x2003251cadf8effa, 0x6b20d9f8b7db94f1, 0xdd0c19f57c9cc019, 0x408aa82ae77985ca }, /* a */

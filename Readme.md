@@ -13,7 +13,7 @@
 
     gcc -DLIBAKRYPT_LITTLE_ENDIAN=ON -I./source source/ak_*.c test/test_hash.c -o test_hash
 
-Для сборки на big endian архитектуре [см. сайт ellcc.org](http://ellcc.org) можно запустить
+Для сборки на big endian архитектуре [подробнее см. на  ellcc.org](http://ellcc.org) можно запустить
 
     ecc -target mips32r2-linux -I./source source/ak_*.c test/test_hash.c -o test_hash
 
@@ -29,3 +29,4 @@
 
 Основное предназначение данного кода - использование во встраиваемых системах,
 не использующих стандартную библиотеку libc или ее аналоги.
+

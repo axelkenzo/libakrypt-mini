@@ -1,4 +1,5 @@
 all:
+	@echo "use \"make intel\" or \"make mips\""
 
 intel:
 	gcc -DLIBAKRYPT_LITTLE_ENDIAN=ON -I./source source/ak_streebog.c test/test_hash.c -Os -Wall -o test_hash

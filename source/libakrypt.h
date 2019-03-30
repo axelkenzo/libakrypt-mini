@@ -345,6 +345,20 @@ extern "C" {
 };
 
 /* ----------------------------------------------------------------------------------------------- */
+ extern struct wcurve id_tc26_gost_3410_2012_256_paramSetA;
+ extern struct wcurve id_rfc4357_gost_3410_2001_paramSetA;
+ extern struct wcurve id_rfc4357_gost_3410_2001_paramSetB;
+ extern struct wcurve id_rfc4357_gost_3410_2001_paramSetC;
+
+ #define id_tc26_gost_3410_2012_256_paramSetB ( id_rfc4357_gost_3410_2001_paramSetA )
+ #define id_tc26_gost_3410_2012_256_paramSetC ( id_rfc4357_gost_3410_2001_paramSetB )
+ #define id_tc26_gost_3410_2012_256_paramSetD ( id_rfc4357_gost_3410_2001_paramSetC )
+
+ extern struct wcurve id_tc26_gost_3410_2012_512_paramSetA;
+ extern struct wcurve id_tc26_gost_3410_2012_512_paramSetB;
+ extern struct wcurve id_tc26_gost_3410_2012_512_paramSetC;
+
+/* ----------------------------------------------------------------------------------------------- */
 /*! \brief Вычисление дискриминанта эллиптической кривой, заданной в короткой форме Вейерштрасса. */
  void ak_mpzn_set_wcurve_discriminant( ak_uint64 *, ak_wcurve );
 /*! \brief Проверка корректности дискриминанта эллиптической кривой, заданной в форме Вейерштрасса. */
@@ -357,6 +371,36 @@ extern "C" {
     заданных в короткой форме Вейерштрасса. */
  int ak_wcurve_test( void );
 
+/* ----------------------------------------------------------------------------------------------- */
+/*! \brief Открытый ключ алгоритма проверки электронной подписи ГОСТ Р 34.10-2012.
+
+   Ключ может рассматриваться в качестве открытого ключа как для действующего стандарта
+   ГОСТ Р 34.10-2012, так и для предыдущей редакции 2001 года. Кроме того, данный контекст
+   открытого ключа может быть применим для любого асимметричного криптографического механизма,
+   использующего вычисления с эллиптическими кривыми в короткой форме Вейерштрасса.                */
+/* ----------------------------------------------------------------------------------------------- */
+ typedef struct verifykey {
+ /*! \brief контекст функции хеширования */
+  struct hash ctx;
+ /*! \brief контекст эллиптической кривой */
+  ak_wcurve wc;
+ /*! \brief точка кривой, являющаяся открытым ключом */
+  struct wpoint qpoint;
+} *ak_verifykey;
+
+/* ----------------------------------------------------------------------------------------------- */
+/*! \brief Инициализация контекста открытого ключа алгоритма ГОСТ Р 34.10-2012. */
+ int ak_verifykey_context_create_from_ptr( ak_verifykey , ak_pointer , size_t , const ak_wcurve );
+/*! \brief Экспорт ключа в виде последовательности байт (формат raw key). */
+ int ak_verify_context_export_ptr( ak_verifykey, ak_pointer , size_t );
+/*! \brief Уничтожение контекста открытого ключа. */
+ int ak_verifykey_context_destroy( ak_verifykey );
+/*! \brief Проверка электронной подписи для вычисленного заранее значения хеш-функции. */
+ ak_bool ak_verifykey_context_verify_hash( ak_verifykey , const ak_pointer ,
+                                                                       const size_t , ak_pointer );
+/*! \brief Проверка электронной подписи для заданной области памяти. */
+ ak_bool ak_verifykey_context_verify_ptr( ak_verifykey , const ak_pointer ,
+                                                                       const size_t , ak_pointer );
 #ifdef __cplusplus
 } /* конец extern "C" */
 #endif
