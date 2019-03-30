@@ -391,8 +391,6 @@ extern "C" {
 /* ----------------------------------------------------------------------------------------------- */
 /*! \brief Инициализация контекста открытого ключа алгоритма ГОСТ Р 34.10-2012. */
  int ak_verifykey_context_create_from_ptr( ak_verifykey , ak_pointer , size_t , const ak_wcurve );
-/*! \brief Экспорт ключа в виде последовательности байт (формат raw key). */
- int ak_verify_context_export_ptr( ak_verifykey, ak_pointer , size_t );
 /*! \brief Уничтожение контекста открытого ключа. */
  int ak_verifykey_context_destroy( ak_verifykey );
 /*! \brief Проверка электронной подписи для вычисленного заранее значения хеш-функции. */
