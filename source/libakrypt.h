@@ -19,12 +19,12 @@ extern "C" {
 #endif
 
 /* ----------------------------------------------------------------------------------------------- */
- typedef int32_t ak_int32;
- typedef u_int32_t ak_uint32;
- typedef int64_t ak_int64;
- typedef u_int64_t ak_uint64;
- typedef int8_t ak_int8;
- typedef u_int8_t ak_uint8;
+ typedef int ak_int32;
+ typedef unsigned int ak_uint32;
+ typedef long long ak_int64;
+ typedef unsigned long long ak_uint64;
+ typedef char ak_int8;
+ typedef unsigned char ak_uint8;
 
 /* ----------------------------------------------------------------------------------------------- */
 /*! \brief Определение булева типа, принимающего значения либо истина, либо ложь. */
