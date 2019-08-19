@@ -20,7 +20,7 @@ cmake_minimum_required( VERSION 3.2 FATAL_ERROR )
 
 set( HEAD_VERSION 0 )
 set( MAIN_VERSION 2 )
-set( MINOR_VERSION 1 )
+set( MINOR_VERSION 2 )
 
 set( MAJOR_VERSION ${HEAD_VERSION}.${MAIN_VERSION} )
 set( FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION} )
@@ -45,14 +45,17 @@ set( MAIN_HEADER    source/libakrypt-mini.h )
 
 # код, реализующий операции с функциями хэширования
 set( HASH_SOURCES   source/ak_streebog.c
-                    source/ak_hmac.c
-)
+                    source/ak_hmac.c )
 
 # код, реализующий операции с электронной подписью
 set( SIGN_SOURCES   source/ak_mpzn.c
                     source/ak_curves.c
-                    source/ak_sign.c
-)
+                    source/ak_sign.c )
+
+# тестовые примеры
+set( TESTS          hash
+                    sign
+                    pbkdf2 )
 
 # определение перечня собираемых модулей
 if( LIBAKRYPT_HASH )
@@ -101,12 +104,8 @@ message( "-- use flags: ${CMAKE_C_FLAGS}" )
 
 # определение перечня собираемых тестовых примеров
 if( LIBAKRYPT_TESTS )
-  add_executable( hash test/test_hash.c )
-  target_link_libraries( hash akrypt-mini )
-
-  add_executable( sign test/test_sign.c )
-  target_link_libraries( sign akrypt-mini )
-
-  add_executable( pbkdf2 test/test_pbkdf2.c )
-  target_link_libraries( pbkdf2 akrypt-mini )
+  foreach( programm ${TESTS} )
+    add_executable( ${programm} test/test_${programm}.c )
+    target_link_libraries( ${programm} akrypt-mini )
+  endforeach()
 endif()
