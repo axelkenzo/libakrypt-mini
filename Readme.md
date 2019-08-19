@@ -1,4 +1,4 @@
-#![libakrypt-mini](https://avatars2.githubusercontent.com/u/605552 "axelkenzo") libakrypt-mini project
+#libakrypt-mini project
 Данный проект представляет собой небольшой фрагмент библиотеки [libakrypt](https://github.com/axelkenzo/libakrypt-0.x),
 позволяющий:
 
