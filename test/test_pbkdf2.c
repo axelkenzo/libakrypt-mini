@@ -1,7 +1,7 @@
  #include <stdio.h>
  #include <stdlib.h>
  #include <string.h>
- #include <libakrypt.h>
+ #include <libakrypt-mini.h>
 
  int main( void )
 {
