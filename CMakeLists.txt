@@ -57,10 +57,12 @@ set( SIGN_SOURCES   source/ak_mpzn.c
                     source/ak_curves.c
                     source/ak_sign.c )
 
+# код, реализующий выработку производных ключей
 set( KEYS_SOURCES   source/ak_kdf.c )
 
 # тестовые примеры
 set( TESTS          hash
+                    hspeed
                     sign
                     pbkdf2
                     keys )
