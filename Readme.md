@@ -1,4 +1,4 @@
-#libakrypt-mini project
+# libakrypt-mini project
 Данный проект представляет собой небольшой фрагмент библиотеки [libakrypt](https://github.com/axelkenzo/libakrypt-0.x),
 позволяющий:
 
@@ -19,7 +19,7 @@
  * `bswap_64()` (для big endian архитектуры)
 
 
-##Компиляция
+## Компиляция
 
 Для сборки тестовых примеров, на Intel архитектуре, можно запустить
 

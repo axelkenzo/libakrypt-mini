@@ -11,7 +11,10 @@
    0x0E, 0x41, 0xEA, 0x44, 0xDE, 0x1C, 0x15, 0x5D, 0xCD, 0x88, 0xDC, 0x84, 0xFE, 0x58, 0xA8, 0x55 };
 
  /* встроенный тест */
- if( ak_hash_test_streebog256( )) printf("Testing Ok\n"); else printf("Testing wrong\n");
+ if( ak_hash_test_streebog256( )) printf("Testing streebog256 Ok\n");
+   else printf("Testing streebog256 wrong\n");
+ if( ak_hash_test_streebog512( )) printf("Testing streebog512 Ok\n");
+   else printf("Testing streebog512 wrong\n");
 
  /* тестовые значения из libcrypto */
   ak_uint8 HASH_SHORT_MESSAGE[63] = {

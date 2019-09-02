@@ -27,6 +27,19 @@
     @return В случае успешного завершения функций возвращает \ref ak_error_ok. В случае
     возникновения ошибки возвращеется ее код.                                                      */
 /* ----------------------------------------------------------------------------------------------- */
+ int ak_hmac_context_create_streebog256( ak_hmac hctx )
+{
+  if( hctx == NULL ) return ak_error_null_pointer;
+  memset( hctx->key, 0, sizeof( hctx->key ));
+
+ return ak_hash_context_create_streebog256( &hctx->ctx );
+}
+
+/* ----------------------------------------------------------------------------------------------- */
+/*! @param hctx Контекст алгоритма HMAC выработки имитовставки.
+    @return В случае успешного завершения функций возвращает \ref ak_error_ok. В случае
+    возникновения ошибки возвращеется ее код.                                                      */
+/* ----------------------------------------------------------------------------------------------- */
  int ak_hmac_context_destroy( ak_hmac hctx )
 {
   if( hctx == NULL ) return ak_error_null_pointer;
@@ -67,7 +80,7 @@
     @return В случае успеха функция возвращает \ref ak_error_ok. В противном случае
     возвращается код ошибки.                                                                       */
 /* ----------------------------------------------------------------------------------------------- */
- static int ak_hmac_context_clean( ak_hmac hctx )
+ int ak_hmac_context_clean( ak_hmac hctx )
 {
   int error = ak_error_ok;
   size_t idx = 0, len = 0;

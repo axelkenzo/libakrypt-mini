@@ -979,6 +979,21 @@
    0xC0, 0xCA, 0xC6, 0x28, 0xFC, 0x66, 0x9A, 0x74, 0x1D, 0x50, 0x06, 0x3C, 0x55, 0x7E, 0x8F, 0x50
  };
 
+ static ak_uint8 streebog512_testM1[64] = {
+   0x1B, 0x54, 0xD0, 0x1A, 0x4A, 0xF5, 0xB9, 0xD5, 0xCC, 0x3D, 0x86, 0xD6, 0x8D, 0x28, 0x54, 0x62,
+   0xB1, 0x9A, 0xBC, 0x24, 0x75, 0x22, 0x2F, 0x35, 0xC0, 0x85, 0x12, 0x2B, 0xE4, 0xBA, 0x1F, 0xFA,
+   0x00, 0xAD, 0x30, 0xF8, 0x76, 0x7B, 0x3A, 0x82, 0x38, 0x4C, 0x65, 0x74, 0xF0, 0x24, 0xC3, 0x11,
+   0xE2, 0xA4, 0x81, 0x33, 0x2B, 0x08, 0xEF, 0x7F, 0x41, 0x79, 0x78, 0x91, 0xC1, 0x64, 0x6F, 0x48
+ };
+
+ static ak_uint8 streebog512_testM2[64] = {
+   0x1E, 0x88, 0xE6, 0x22, 0x26, 0xBF, 0xCA, 0x6F, 0x99, 0x94, 0xF1, 0xF2, 0xD5, 0x15, 0x69, 0xE0,
+   0xDA, 0xF8, 0x47, 0x5A, 0x3B, 0x0F, 0xE6, 0x1A, 0x53, 0x00, 0xEE, 0xE4, 0x6D, 0x96, 0x13, 0x76,
+   0x03, 0x5F, 0xE8, 0x35, 0x49, 0xAD, 0xA2, 0xB8, 0x62, 0x0F, 0xCD, 0x7C, 0x49, 0x6C, 0xE5, 0xB3,
+   0x3F, 0x0C, 0xB9, 0xDD, 0xDC, 0x2B, 0x64, 0x60, 0x14, 0x3B, 0x03, 0xDA, 0xBA, 0xC9, 0xFB, 0x28
+ };
+
+
 /* ----------------------------------------------------------------------------------------------- */
 /*!  @return Если тестирование прошло успешно возвращается ak_true (истина). В противном случае,
      возвращается ak_false.                                                                        */
@@ -1010,6 +1025,45 @@
   }
 
   for( i = 0; i < 32; i++ ) if( out[i] != streebog256_testM2[i] ) result = ak_false;
+  if( !result ) return ak_false;
+
+ /* уничтожаем контекст */
+   ak_hash_context_destroy( &ctx );
+ return result;
+}
+
+
+/* ----------------------------------------------------------------------------------------------- */
+/*!  @return Если тестирование прошло успешно возвращается ak_true (истина). В противном случае,
+     возвращается ak_false.                                                                        */
+/* ----------------------------------------------------------------------------------------------- */
+ ak_bool ak_hash_test_streebog512( void )
+{
+  struct hash ctx; /* контекст функции хеширования */
+  ak_uint8 out[64]; /* буффер длиной 64 байта для получения результата */
+  int error = ak_error_ok;
+  ak_bool result = ak_true;
+  int i = 0;
+
+ /* инициализируем контекст функции хешиирования */
+  if(( error = ak_hash_context_create_streebog512( &ctx )) != ak_error_ok ) return ak_false;
+
+ /* первый пример из приложения А (ГОСТ Р 34.11-2012) */
+  if(( error = ak_hash_context_ptr( &ctx, streebog_M1_message, 63, out )) != ak_error_ok ) {
+    ak_hash_context_destroy( &ctx );
+    return ak_false;
+  }
+
+  for( i = 0; i < 64; i++ ) if( out[i] != streebog512_testM1[i] ) result = ak_false;
+  if( !result ) return ak_false;
+
+ /* второй пример из приложения А (ГОСТ Р 34.11-2012) */
+  if(( error = ak_hash_context_ptr( &ctx, streebog_M2_message, 72, out )) != ak_error_ok ) {
+    ak_hash_context_destroy( &ctx );
+    return ak_false;
+  }
+
+  for( i = 0; i < 64; i++ ) if( out[i] != streebog512_testM2[i] ) result = ak_false;
   if( !result ) return ak_false;
 
  /* уничтожаем контекст */
