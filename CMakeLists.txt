@@ -28,6 +28,7 @@ set( FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION} )
 # для включения опции: cmake -D LIBAKRYPT_SHARED_LIB=ON path
 option( LIBAKRYPT_HASH "Build the hash functions" OFF )
 option( LIBAKRYPT_SIGN "Build the digital signature functions" OFF )
+option( LIBAKRYPT_CIPHER "Build the Kuznechik encryption/decryption procedures" OFF )
 option( LIBAKRYPT_KEYS "Build the key derivation functions and procedures" OFF )
 option( LIBAKRYPT_STATIC_LIB "Build the static library" OFF )
 option( LIBAKRYPT_SHARED_LIB "Build the shared library" OFF )
@@ -36,6 +37,7 @@ option( LIBAKRYPT_TESTS "Build the tests and example programs" OFF )
 # удовлетворение зависимостей
 if( LIBAKRYPT_TESTS )
   set( LIBAKRYPT_SIGN ON )
+  set( LIBAKRYPT_CIPHER ON )
   set( LIBAKRYPT_KEYS ON )
 endif()
 if( LIBAKRYPT_SIGN )
@@ -57,6 +59,9 @@ set( SIGN_SOURCES   source/ak_mpzn.c
                     source/ak_curves.c
                     source/ak_sign.c )
 
+# код, реализующий алгоритм блочного шифрования Кузнечик
+set( CIPHER_SOURCES   source/ak_kuznechik.c )
+
 # код, реализующий выработку производных ключей
 set( KEYS_SOURCES   source/ak_kdf.c )
 
@@ -73,6 +78,9 @@ if( LIBAKRYPT_HASH )
 endif()
 if( LIBAKRYPT_SIGN )
  set( SOURCES ${SOURCES} ${SIGN_SOURCES} )
+endif()
+if( LIBAKRYPT_CIPHER )
+ set( SOURCES ${SOURCES} ${CIPHER_SOURCES} )
 endif()
 if( LIBAKRYPT_KEYS )
  set( SOURCES ${SOURCES} ${KEYS_SOURCES} )

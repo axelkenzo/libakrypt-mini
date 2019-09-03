@@ -11,12 +11,12 @@
   clock_t timea;
   struct nkey nctx;
   double seconds = 0;
-  int i, j, error = ak_error_ok;
+  int i, j, k, error = ak_error_ok;
 
- /* исходный ключ, 32 октета */
-  ak_uint8 source_key[32] = {
-    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
-    0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf };
+ /* тестовый ключ из ГОСТ Р 34.12-2015 */
+  ak_uint8 testkey[32] = {
+    0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01, 0x10, 0x32, 0x54, 0x76, 0x98, 0xba, 0xdc, 0xfe,
+    0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0xff, 0xee, 0xdd, 0xcc, 0xbb, 0xaa, 0x99, 0x88 };
 
  /* номер серии ключа */
   ak_uint8 key_document_number[8] = { 0x00, 0x00, 0xaa, 0xaa, 0xbb, 0xbb, 0x19, 0x99 };
@@ -24,11 +24,14 @@
  /* указатель на производный ключ */
   ak_uint8 *derived_key = NULL;
 
+ /* контекст блочного шифра Кузнечик */
+  struct bckey bctx;
+
  /* 1. Создаем контекст выработки производных ключей */
   if(( error = ak_nkey_context_create(
                    &nctx,                  /* контекст выработки производных ключей */
-                   source_key,                      /* исходная ключевая информация */
-                   sizeof( source_key ),    /*  размер исходной ключевой информации */
+                   testkey,                         /* исходная ключевая информация */
+                   sizeof( testkey ),       /*  размер исходной ключевой информации */
                    key_document_number,                        /* номер серии ключа */
                    sizeof( key_document_number ),         /* размер серии в октетах */
      ( ak_uint8 *) "source-PlatformID",                /* идентификатор отправителя */
@@ -44,15 +47,31 @@
        и тестируем скорость работы (с дополнительной нагрузкой) */
   timea = clock();
    for( i = 0; i < total_key_count; i++ ) {
-     derived_key = ak_nkey_context_generate_next_key( &nctx );
 
-     printf("key [%3d]: ", ak_nkey_context_get_key_number( &nctx ));
-      for( j = 0; j < 32; j++ ) printf("%02x ", derived_key[j] );
-     printf("\n");
+     /* получаем следующий производный ключ */
+      derived_key = ak_nkey_context_generate_next_key( &nctx );
+
+     /* выводим информацию  */
+      printf("key [%3d]: ", ak_nkey_context_get_key_number( &nctx ));
+        for( j = 0; j < 32; j++ ) printf("%02x ", derived_key[j] );
+      printf("\n");
+
+     /* 3. Разворачиваем ключ дальше и вычисляем раундовые ключи,
+           которые будут передаваться дальше */
+      ak_bckey_context_create( &bctx, derived_key );
+
+     /* выводим информацию (в обратном порядке байт, как в ГОСТе) */
+        printf("  round keys:\n");
+        for( j = 0; j < 10; j++ ) {
+          printf("  K[%2d]: [%016llx:%016llx] -> ", j+1, bctx.direct[2*j+1], bctx.direct[2*j]);
+          for( k = 15; k >= 0; k-- ) printf("%02x ", ((ak_uint8 *)bctx.direct)[16*j + k] );
+          printf("\n");
+        }
+        printf("\n");
    }
   timea = clock() - timea;
   seconds = (double) timea / (double) CLOCKS_PER_SEC;
-  printf("generation of %u keys: %fs (one key per %f sec)\n",
+  printf("generation of %u keys: %fs (%f keys per second)\n",
                                 total_key_count, seconds, total_key_count/seconds );
  return EXIT_SUCCESS;
 }
