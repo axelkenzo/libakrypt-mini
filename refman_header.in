@@ -1,0 +1,164 @@
+\documentclass[12pt, oneside]{report}
+
+% -------------------------------------------------------------------- %
+% Packages required by doxygen
+\usepackage{fixltx2e}
+\usepackage{calc}
+\usepackage{doxygen}
+\usepackage[export]{adjustbox} % also loads graphicx
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{multicol}
+\usepackage{multirow}
+\PassOptionsToPackage{warn}{textcomp}
+\usepackage{textcomp}
+\usepackage[nointegrals]{wasysym}
+\usepackage[table]{xcolor}
+\usepackage{longtable}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+% фрагмент для поддержки исходных кодов, подключаемых через pandoc
+\usepackage{color}
+\usepackage{fancyvrb}
+\DefineShortVerb[commandchars=\\\{\}]{\|}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{fontsize=\footnotesize,commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx}
+
+
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amssymb}
+\usepackage{sectsty}
+
+\renewcommand{\DoxyLabelFont}{%
+  \fontseries{bc}\selectfont%
+  \color{darkgray}%
+}
+\newcommand{\+}{\discretionary{\mbox{\scriptsize$\hookleftarrow$}}{}{}}
+%
+\renewenvironment{DoxyCode}{%
+  \par%
+  \scriptsize%
+  \begin{alltt}
+}{%
+  \end{alltt}%
+  \normalsize%
+}
+
+% Page & text layout
+\usepackage{geometry}
+\geometry{%
+  a4paper,%
+  top=2.25cm,%
+  bottom=1.75cm,%
+  left=2.5cm,%
+  right=1.5cm%
+}
+
+% Headers & footers
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead[LE]{\fancyplain{}{\bfseries\thepage}}
+\fancyhead[CE]{\fancyplain{}{}}
+\fancyhead[RE]{\fancyplain{}{\bfseries\leftmark}}
+\fancyhead[LO]{\fancyplain{}{\bfseries\rightmark}}
+\fancyhead[CO]{\fancyplain{}{}}
+\fancyhead[RO]{\fancyplain{}{\bfseries\thepage}}
+\fancyfoot[LE]{\fancyplain{}{}}
+\fancyfoot[CE]{\fancyplain{}{}}
+\fancyfoot[RE]{\fancyplain{}{\bfseries\scriptsize Документация к библиотеке libakrypt-mini версии @HEAD_VERSION@.@MAIN_VERSION@.@MINOR_VERSION@ (от \today)}}
+\fancyfoot[LO]{\fancyplain{}{\bfseries\scriptsize Документация к библиотеке libakrypt-mini версии @HEAD_VERSION@.@MAIN_VERSION@.@MINOR_VERSION@ (от \today)}}
+\fancyfoot[CO]{\fancyplain{}{}}
+\fancyfoot[RO]{\fancyplain{}{}}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{%
+  \markboth{#1}{}%
+}
+\renewcommand{\sectionmark}[1]{%
+  \markright{\thesection\ #1}%
+}
+
+\setlength{\headheight}{15pt}
+
+% Indices & bibliography
+\usepackage{natbib}
+\usepackage[titles]{tocloft}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{5}
+\makeindex
+
+% -------------------------------------------------------------------- %
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0.5pt}\setlength{\parskip}{0pt}}
+
+% -------------------------------------------------------------------- %
+% Hyperlinks (required, but should be loaded last)
+\usepackage[unicode, colorlinks]{hyperref} % настройка PDF
+\hypersetup{%
+  pdftitle      = {Документация к библиотеке libakrypt-mini (версия @HEAD_VERSION@.@MAIN_VERSION@.@MINOR_VERSION@ от \today)},
+  pdfauthor     = {Axel Kenzo},
+  colorlinks    = true,%
+  linkcolor     = blue,%
+  citecolor     = blue,
+  bookmarksopen = {true},
+  bookmarksnumbered = {true}
+}
+
+% -------------------------------------------------------------------- %
+\begin{document}
+% Title page
+
+\thispagestyle{plain}
+
+\vfill
+\hbox{%
+\rule{1pt}{1.0\textheight}
+\hspace*{0.05\textwidth}%
+\parbox[b]{0.95\textwidth}{
+\vbox{%
+\vspace{0.1\textwidth}
+{\noindent\Huge\bfseries libakrypt-mini}\\[1\baselineskip]
+\textsc{версия @HEAD_VERSION@.@MAIN_VERSION@.@MINOR_VERSION@} \\[5\baselineskip]
+
+
+%{\bfseries\textsc{Инструкция по сборке и установке}}\\[1\baselineskip]
+%{\bfseries\textsc{Инструкция по встраиванию}}\\[1\baselineskip]
+%{\bfseries\textsc{Принципы реализации}}\\[1\baselineskip]
+
+
+%![axelkenzo](https://avatars3.githubusercontent.com/u/605552?s=400&v=4)
+
+
+\vspace{0.5\textheight}
+{\small\textsc{Axel Kenzo и <<Компания изящной словесности>>~~\copyright~~\today}}\\[1\baselineskip]
+%{(c) 2014 -- 2019}\\[1\baselineskip]
+}% end of vbox
+}% end of parbox
+}% end of hbox
+\vfill
+
+\newpage
+\tableofcontents
+
+% pandoc -f markdown -t latex Readme.me >> refman_header.in ))
+% \input{@CMAKE_BINARY_DIR@/readme.tex}

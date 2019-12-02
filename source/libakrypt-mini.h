@@ -140,6 +140,14 @@ extern "C" {
  #define ak_error_wrong_asn1_decode           (-91)
 
 /* ----------------------------------------------------------------------------------------------- */
+ void *ak_memcpy( void *, const void *, size_t );
+ void *ak_memset( void *, int , size_t );
+ ak_uint64 ak_bswap_64( ak_uint64 );
+#ifndef NULL
+ #define NULL (( void * )0 )
+#endif
+
+/* ----------------------------------------------------------------------------------------------- */
 /*! \brief Функция очистки контекста хеширования. */
  typedef int ( ak_function_mac_clean )( ak_pointer );
 /*! \brief Итерационная функция хеширования. */

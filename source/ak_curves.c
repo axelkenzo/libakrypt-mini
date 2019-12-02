@@ -4,7 +4,6 @@
 /*  Файл ak_curves.с                                                                               */
 /*  - содержит реализацию функций для работы с эллиптическими кривыми.                             */
 /* ----------------------------------------------------------------------------------------------- */
- #include <string.h>
  #include <libakrypt-mini.h>
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -347,7 +346,7 @@
 {
   ak_mpzn512 r, s, t;
 
-  memset( t, 0x01, sizeof( ak_uint64 )*ec->size ); // ak_mpzn_set_random( t, ec->size );
+  ak_memset( t, 0x01, sizeof( ak_uint64 )*ec->size ); // ak_mpzn_set_random( t, ec->size );
   ak_mpzn_rem( t, t, ec->q, ec->size );
 
   ak_mpzn_set_ui( r, ec->size, 2 );
@@ -457,9 +456,9 @@
   if( wc == NULL ) return ak_error_null_pointer;
 
  /* копируем данные */
-  memcpy( wp->x, wc->point.x, wc->size*sizeof( ak_uint64 ));
-  memcpy( wp->y, wc->point.y, wc->size*sizeof( ak_uint64 ));
-  memcpy( wp->z, wc->point.z, wc->size*sizeof( ak_uint64 ));
+  ak_memcpy( wp->x, wc->point.x, wc->size*sizeof( ak_uint64 ));
+  ak_memcpy( wp->y, wc->point.y, wc->size*sizeof( ak_uint64 ));
+  ak_memcpy( wp->z, wc->point.z, wc->size*sizeof( ak_uint64 ));
 
  return ak_error_ok;
 }
@@ -495,9 +494,9 @@
   if( wq == NULL ) return ak_error_null_pointer;
   if( wc == NULL ) return ak_error_null_pointer;
 
-  memcpy( wp->x, wq->x, wc->size*sizeof( ak_uint64 ));
-  memcpy( wp->y, wq->y, wc->size*sizeof( ak_uint64 ));
-  memcpy( wp->z, wq->z, wc->size*sizeof( ak_uint64 ));
+  ak_memcpy( wp->x, wq->x, wc->size*sizeof( ak_uint64 ));
+  ak_memcpy( wp->y, wq->y, wc->size*sizeof( ak_uint64 ));
+  ak_memcpy( wp->z, wq->z, wc->size*sizeof( ak_uint64 ));
 
  return ak_error_ok;
 }
@@ -517,8 +516,8 @@
  ak_bool ak_wpoint_is_ok( ak_wpoint wp, ak_wcurve ec )
 {
   ak_mpznmax t, s;
-  memset( t, 0, sizeof(ak_uint64)*ak_mpznmax_size );
-  memset( s, 0, sizeof(ak_uint64)*ak_mpznmax_size );
+  ak_memset( t, 0, sizeof(ak_uint64)*ak_mpznmax_size );
+  ak_memset( s, 0, sizeof(ak_uint64)*ak_mpznmax_size );
 
  /* Проверяем принадлежность точки заданной кривой */
   ak_mpzn_set( t, ec->a, ec->size );

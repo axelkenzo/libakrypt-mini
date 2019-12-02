@@ -4,9 +4,6 @@
 /*  Файл ak_kdf.с                                                                                  */
 /*  - содержит реализацию функций выработки производных ключей.                                    */
 /* ----------------------------------------------------------------------------------------------- */
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
  #include <libakrypt-mini.h>
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -44,7 +41,7 @@
   if(( error = ak_hmac_context_set_key( &nctx->hctx, salt, salt_size )) != ak_error_ok ) return error;
 
  /* вычисляем значение промежуточного ключа */
-  memset( nctx->buffer, 0, sizeof( nctx->buffer ));
+  ak_memset( nctx->buffer, 0, sizeof( nctx->buffer ));
   if(( error = ak_hmac_context_ptr( &nctx->hctx, source, source_size,
                                                         nctx->buffer )) != ak_error_ok ) return error;
 
@@ -55,9 +52,9 @@
  /* формируем изменяемый вектор */
   nctx->key_number = -1;
   nctx->length = 36;
-  memset( nctx->buffer, 0, sizeof( nctx->buffer ));
-  memcpy( nctx->buffer + nctx->length, src, src_size ); nctx->length += src_size;
-  memcpy( nctx->buffer + nctx->length, dst, dst_size ); nctx->length += dst_size;
+  ak_memset( nctx->buffer, 0, sizeof( nctx->buffer ));
+  ak_memcpy( nctx->buffer + nctx->length, src, src_size ); nctx->length += src_size;
+  ak_memcpy( nctx->buffer + nctx->length, dst, dst_size ); nctx->length += dst_size;
   nctx->buffer[nctx->length++] = 0x80;
   nctx->buffer[nctx->length++] = 0;
   nctx->buffer[nctx->length++] = 0;

@@ -57,6 +57,11 @@ endif()
 set( MAIN_HEADER    source/libakrypt-mini.h )
 
 # -------------------------------------------------------------------------------------------------- #
+# код, реализующий функции библиотеки libc
+# -------------------------------------------------------------------------------------------------- #
+set( SOURCES   source/ak_tools.c )
+
+# -------------------------------------------------------------------------------------------------- #
 # код, реализующий операции с функциями хэширования
 # -------------------------------------------------------------------------------------------------- #
 set( HASH_SOURCES   source/ak_streebog.c
@@ -94,7 +99,10 @@ set( TESTS          hash
 set( OTHERS         CMakeLists.txt
                     Makefile
                     Readme.md
-                    example.sh )
+                    example.sh
+                    Doxyfile.in
+                    refman_header.in
+                    refman_footer.in )
 
 # -------------------------------------------------------------------------------------------------- #
 # определение перечня собираемых модулей
@@ -182,6 +190,8 @@ if( CMAKE_HOST_UNIX )
   foreach( file ${OTHERS} )
     file( APPEND ${MYDFILE} "cp -fL --preserve=all ${CMAKE_SOURCE_DIR}/${file} libakrypt-mini-${FULL_VERSION}\n")
   endforeach()
+  file( APPEND ${MYDFILE} "make doc\n")
+  file( APPEND ${MYDFILE} "cp -fL --preserve=all ${CMAKE_BINARY_DIR}/libakrypt-mini-doc.${FULL_VERSION}.pdf libakrypt-mini-${FULL_VERSION}\n")
 
   # собираем дистрибутив
   file( APPEND ${MYDFILE} "tar -cjvf libakrypt-mini-${FULL_VERSION}.tar.bz2 libakrypt-mini-${FULL_VERSION}\n")
@@ -191,5 +201,37 @@ if( CMAKE_HOST_UNIX )
   message("-- Creating a ${MYDFILE} file - done ")
   execute_process( COMMAND chmod +x ${MYDFILE} )
   add_custom_target( dist ${MYDFILE} )
+endif()
+
+# -------------------------------------------------------------------------------------------------- #
+# генерация документации
+# -------------------------------------------------------------------------------------------------- #
+if( CMAKE_HOST_UNIX )
+  find_file( DOXYGEN_BIN doxygen )
+  if( DOXYGEN_BIN )
+    # doxygen найден и документация может быть сгенерирована
+    set( LIBAKRYPT_PDF_HEADER "refman_header.tex" )
+    set( LIBAKRYPT_PDF_FOOTER "refman_footer.tex" )
+
+    configure_file( ${CMAKE_SOURCE_DIR}/Doxyfile.in ${CMAKE_BINARY_DIR}/Doxyfile @ONLY )
+    configure_file( ${CMAKE_SOURCE_DIR}/refman_header.in
+                                               ${CMAKE_BINARY_DIR}/refman_header.tex @ONLY )
+    configure_file( ${CMAKE_SOURCE_DIR}/refman_footer.in
+                                               ${CMAKE_BINARY_DIR}/refman_footer.tex @ONLY )
+    set( MYDOCFILE "${CMAKE_BINARY_DIR}/make-doc-${FULL_VERSION}.sh" )
+
+    # формируем последовательность вызовов
+    file( WRITE ${MYDOCFILE} "#!/bin/bash\n" )
+    file( APPEND ${MYDOCFILE} "doxygen Doxyfile\n")
+    file( APPEND ${MYDOCFILE} "cd doc/latex\n")
+    file( APPEND ${MYDOCFILE} "make\n")
+    file( APPEND ${MYDOCFILE} "cd ../..\n")
+    file( APPEND ${MYDOCFILE} "cp doc/latex/refman.pdf ${CMAKE_BINARY_DIR}/libakrypt-mini-doc.${FULL_VERSION}.pdf\n")
+
+    # меняем права доступа и готовим цель
+    message("-- Creating a ${MYDOCFILE} file - done ")
+    execute_process( COMMAND chmod +x ${MYDOCFILE} )
+    add_custom_target( doc ${MYDOCFILE} )
+  endif()
 endif()
 

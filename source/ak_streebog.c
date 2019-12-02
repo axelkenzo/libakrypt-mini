@@ -4,7 +4,6 @@
 /*  Файл ak_streebog.c                                                                             */
 /*  - содержит реализацию алгоритма бесключевого хэширования, регламентируемого ГОСТ Р 34.11-2012  */
 /* ----------------------------------------------------------------------------------------------- */
- #include <string.h>
  #include <libakrypt-mini.h>
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -1177,7 +1176,7 @@
  int ak_hash_context_destroy( ak_hash ctx )
 {
   if( ctx == NULL ) return ak_error_null_pointer;
-  memset( ctx, 0, sizeof( struct hash ));
+  ak_memset( ctx, 0, sizeof( struct hash ));
 
  return ak_error_ok;
 }
@@ -1343,10 +1342,10 @@
   ak_hash cx = ( ak_hash ) ctx;
   if( cx == NULL ) return ak_error_null_pointer;
 
-  memset( cx->data.N, 0, 64 );
-  memset( cx->data.SIGMA, 0, 64 );
-  if( cx->hsize == 32 ) memset( cx->data.H, 1, 64 );
-     else memset( cx->data.H, 0, 64 );
+  ak_memset( cx->data.N, 0, 64 );
+  ak_memset( cx->data.SIGMA, 0, 64 );
+  if( cx->hsize == 32 ) ak_memset( cx->data.H, 1, 64 );
+     else ak_memset( cx->data.H, 0, 64 );
 
  return ak_error_ok;
 }
@@ -1388,14 +1387,14 @@
   if( size >= 64 ) return ak_error_zero_length;
 
   /* формируем временный текст */
-  memset( m, 0, 64 );
+  ak_memset( m, 0, 64 );
   if( in != NULL )
-    memcpy( m, in, ( ak_uint32 )size ); /* здесь приведение типов корректно, поскольку 0 <= size < 64 */
+    ak_memcpy( m, in, ( ak_uint32 )size ); /* здесь приведение типов корректно, поскольку 0 <= size < 64 */
   mhide = ( unsigned char * )m;
   mhide[size] = 1; /* дополнение */
 
   /* при финализации мы изменяем копию существующей структуры */
-  memcpy( &sx, &cx->data, sizeof( struct streebog ));
+  ak_memcpy( &sx, &cx->data, sizeof( struct streebog ));
   streebog_g( &sx, sx.N, m );
   streebog_add( &sx, size << 3 );
   streebog_sadd( &sx, m );
@@ -1403,8 +1402,8 @@
   streebog_g( &sx, NULL, sx.SIGMA );
 
  /* копируем нужную часть результирующего массива или выдаем сообщение об ошибке */
-    if( cx->hsize == 64 ) memcpy( out, sx.H, 64 );
-      else memcpy( out, sx.H+4, 32 );
+    if( cx->hsize == 64 ) ak_memcpy( out, sx.H, 64 );
+      else ak_memcpy( out, sx.H+4, 32 );
  return result;
 }
 

@@ -4,7 +4,6 @@
 /*  Файл ak_mpzn.h                                                                                 */
 /*  - содержит реализации функций для вычислений с большими целыми числами                         */
 /* ----------------------------------------------------------------------------------------------- */
- #include <string.h>
  #include <libakrypt-mini.h>
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -53,7 +52,7 @@
 /* ----------------------------------------------------------------------------------------------- */
  void ak_mpzn_set( ak_uint64 *z, ak_uint64 *x, const size_t size )
 {
-  memcpy( z, x, size*sizeof (ak_uint64 ));
+  ak_memcpy( z, x, size*sizeof (ak_uint64 ));
 }
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -70,7 +69,7 @@
 /* ----------------------------------------------------------------------------------------------- */
  void ak_mpzn_set_ui( ak_uint64 *x, const size_t size, const ak_uint64 value )
 {
-  memset( x, 0, size*sizeof( ak_uint64 ));
+  ak_memset( x, 0, size*sizeof( ak_uint64 ));
   x[0] = value;
 }
 
@@ -216,7 +215,7 @@
         cy += w[j] < w0;
         m = w1 + cy;
      }
-  memcpy( z, w, sizeof( ak_uint64 )*size );
+  ak_memcpy( z, w, sizeof( ak_uint64 )*size );
  return m;
 }
 
@@ -258,7 +257,7 @@
     }
     w[ij] = m;
  }
- memcpy( z, w, 2*sizeof( ak_uint64 )*size );
+ ak_memcpy( z, w, 2*sizeof( ak_uint64 )*size );
 }
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -286,7 +285,7 @@
 
  /* проверяем, нужно ли приведение, или же вычет меньше модуля */
   if( q == 0 ) {
-    if( r != u ) memcpy( r, u, size*sizeof( ak_uint64 ));
+    if( r != u ) ak_memcpy( r, u, size*sizeof( ak_uint64 ));
     return;
   }
  /* выполняем умножение и последующее вычитание */
@@ -295,8 +294,8 @@
     ak_mpzn_sub( z, u, s, size );
   } else ak_mpzn_sub( z, u, p, size );
 
-  if( ak_mpzn_sub( s, z, p, size )) memcpy( r, z, size*sizeof( ak_uint64 ));
-   else memcpy( r, s, size*sizeof( ak_uint64 ));
+  if( ak_mpzn_sub( s, z, p, size )) ak_memcpy( r, z, size*sizeof( ak_uint64 ));
+   else ak_memcpy( r, s, size*sizeof( ak_uint64 ));
 }
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -342,7 +341,7 @@
      cy += av > bv;
      z[i] = av;
   }
-  if( t[size] != cy ) memcpy( z, t, size*sizeof( ak_uint64 ));
+  if( t[size] != cy ) ak_memcpy( z, t, size*sizeof( ak_uint64 ));
 }
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -376,7 +375,7 @@
     cy += av > bv;
     z[i] = av;
    }
-   if( t[size] != cy ) memcpy( z, t, size*sizeof( ak_uint64 ));
+   if( t[size] != cy ) ak_memcpy( z, t, size*sizeof( ak_uint64 ));
 }
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -452,7 +451,7 @@
      z[i] = av;
   }
   //if( cy == 1 ) memcpy( z, t+size, size*sizeof( ak_uint64 )); <--- это ошибочный вариант !!!
-  if( cy != t[2*size] ) memcpy( z, t+size, size*sizeof( ak_uint64 ));
+  if( cy != t[2*size] ) ak_memcpy( z, t+size, size*sizeof( ak_uint64 ));
 }
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -495,7 +494,7 @@
         uk <<= 1;
      }
   }
-  memcpy( z, res, size*sizeof( ak_uint64 ));
+  ak_memcpy( z, res, size*sizeof( ak_uint64 ));
 }
 
 /* ----------------------------------------------------------------------------------------------- */

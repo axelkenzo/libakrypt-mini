@@ -4,8 +4,6 @@
 /*  Файл ak_kuznechik.с                                                                            */
 /*  - содержит реализацию функций для работы с блочным шифром Кузнечик (ГОСТ Р 34.12-2015).        */
 /* ----------------------------------------------------------------------------------------------- */
- #include <stdio.h>
- #include <string.h>
  #include <libakrypt-mini.h>
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -149,8 +147,8 @@
    if(( bctx == NULL ) || ( source == NULL )) return ak_error_null_pointer;
 
  /* Инициализируем начальные значения */
-   memset( bctx->direct, 0, sizeof( bctx->direct ));
-   memset( bctx->reverse, 0, sizeof( bctx->reverse ));
+   ak_memset( bctx->direct, 0, sizeof( bctx->direct ));
+   ak_memset( bctx->reverse, 0, sizeof( bctx->reverse ));
 
    bctx->direct[2] = a0[0] = (( ak_uint64 *) source )[0];
    bctx->direct[3] = a0[1] = (( ak_uint64 *) source )[1];

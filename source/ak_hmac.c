@@ -4,9 +4,6 @@
 /*  Файл ak_hmac.с                                                                                 */
 /*  - содержит реализацию семейства ключевых алгоритмов хеширования HMAC.                          */
 /* ----------------------------------------------------------------------------------------------- */
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
  #include <libakrypt-mini.h>
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -17,7 +14,7 @@
  int ak_hmac_context_create_streebog512( ak_hmac hctx )
 {
   if( hctx == NULL ) return ak_error_null_pointer;
-  memset( hctx->key, 0, sizeof( hctx->key ));
+  ak_memset( hctx->key, 0, sizeof( hctx->key ));
 
  return ak_hash_context_create_streebog512( &hctx->ctx );
 }
@@ -30,7 +27,7 @@
  int ak_hmac_context_create_streebog256( ak_hmac hctx )
 {
   if( hctx == NULL ) return ak_error_null_pointer;
-  memset( hctx->key, 0, sizeof( hctx->key ));
+  ak_memset( hctx->key, 0, sizeof( hctx->key ));
 
  return ak_hash_context_create_streebog256( &hctx->ctx );
 }
@@ -43,7 +40,7 @@
  int ak_hmac_context_destroy( ak_hmac hctx )
 {
   if( hctx == NULL ) return ak_error_null_pointer;
-  memset( hctx->key, 0, sizeof( hctx->key ));
+  ak_memset( hctx->key, 0, sizeof( hctx->key ));
 
  return ak_hash_context_destroy( &hctx->ctx );
 }
@@ -71,7 +68,7 @@
     return ak_hash_context_ptr( &hctx->ctx, ptr, size, hctx->key );
 
   }
-  memset( hctx->key, 0, sizeof( hctx->key ));  memcpy( hctx->key, ptr, size );
+  ak_memset( hctx->key, 0, sizeof( hctx->key ));  ak_memcpy( hctx->key, ptr, size );
  return ak_error_ok;
 }
 
@@ -103,7 +100,7 @@
   error = hctx->ctx.update( &hctx->ctx, buffer, hctx->ctx.bsize );
 
  /* очищаем буффер */
-  memset( buffer, 0, sizeof( buffer ));
+  ak_memset( buffer, 0, sizeof( buffer ));
 
  return error;
 }
@@ -152,7 +149,7 @@
   if( size >= hctx->ctx.bsize ) return ak_error_zero_length;
 
  /* обрабатываем хвост предыдущих данных */
-  memset( temporary, 0, sizeof( temporary ));
+  ak_memset( temporary, 0, sizeof( temporary ));
   error = ak_error_ok;
   if(( error =  hctx->ctx.finalize( &hctx->ctx, data, size, temporary )) != ak_error_ok ) return error;
 
@@ -169,7 +166,7 @@
     return error;
 
  /* очищаем буффер */
-  memset( keybuffer, 0, sizeof( keybuffer ));
+  ak_memset( keybuffer, 0, sizeof( keybuffer ));
 
  /* последний update/finalize и возврат результата */
   if( hctx->ctx.bsize == hctx->ctx.hsize ) {
@@ -271,23 +268,23 @@
   if(( error = ak_hmac_context_set_key( &hctx, pass, pass_size )) != ak_error_ok ) return error;
 
  /* начальная инициализация промежуточного вектора */
-  memset( result, 0, 64 );
+  ak_memset( result, 0, 64 );
   result[3] = 1;
 
  /* вычисляем значение первой строки U1  */
   if( salt_size > 60 ) return ak_error_wrong_length;
-  memset( buffer, 0, sizeof( buffer ));
-  memcpy( buffer, salt, salt_size );
-  memcpy( buffer+salt_size, result, 4 );
+  ak_memset( buffer, 0, sizeof( buffer ));
+  ak_memcpy( buffer, salt, salt_size );
+  ak_memcpy( buffer+salt_size, result, 4 );
   if(( error = ak_hmac_context_ptr( &hctx, buffer, salt_size + 4, result )) != ak_error_ok ) return error;
-  memcpy( out, result+64-dklen, dklen );
+  ak_memcpy( out, result+64-dklen, dklen );
 
  /* теперь основной цикл по значению аргумента c */
   for( idx = 1; idx < cnt; idx++ ) {
      ak_hmac_context_ptr( &hctx, result, 64, result );
      for( jdx = 0; jdx < dklen; jdx++ ) ((ak_uint8 *)out)[jdx] ^= result[64-dklen+jdx];
   }
-  memset( result, 0, 64 );
+  ak_memset( result, 0, 64 );
   ak_hmac_context_destroy( &hctx );
 
  return error;
@@ -355,7 +352,7 @@
   if(( error = ak_hmac_context_create_streebog512( &hkey )) != ak_error_ok ) return error;
   if(( error = ak_hmac_context_set_key( &hkey, key, 32 )) != ak_error_ok ) return error;
 
-  memset( out, 0, 64 );
+  ak_memset( out, 0, 64 );
   if(( error = ak_hmac_context_ptr( &hkey, data, 16, out )) != ak_error_ok ) return error;
 
   for( i = 0; i < 64; i++ )

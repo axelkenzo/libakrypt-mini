@@ -4,7 +4,6 @@
 /*  Файл ak_sign.h                                                                                 */
 /*  - содержит реализацию функций для работы с электронной подписью.                               */
 /* ----------------------------------------------------------------------------------------------- */
- #include <string.h>
  #include <libakrypt-mini.h>
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -48,13 +47,13 @@
 
  /* копируем данные */
   blen = wc->size*sizeof( ak_uint64 );
-  memset( pctx->qpoint.x, 0, 2*blen );
-  memcpy( pctx->qpoint.x, key, blen );
+  ak_memset( pctx->qpoint.x, 0, 2*blen );
+  ak_memcpy( pctx->qpoint.x, key, blen );
 
-  memset( pctx->qpoint.y, 0, 2*blen );
-  memcpy( pctx->qpoint.y, ((ak_uint64 *)key)+wc->size, blen );
+  ak_memset( pctx->qpoint.y, 0, 2*blen );
+  ak_memcpy( pctx->qpoint.y, ((ak_uint64 *)key)+wc->size, blen );
 
-  memset( pctx->qpoint.z, 0, sizeof( pctx->qpoint.z ));
+  ak_memset( pctx->qpoint.z, 0, sizeof( pctx->qpoint.z ));
   pctx->qpoint.z[0] = 1;
 
 #ifndef LIBAKRYPT_LITTLE_ENDIAN
@@ -100,9 +99,9 @@
   if( hsize != sizeof( ak_uint64 )*(pctx->wc->size )) return ak_false;
   if( sign == NULL ) return ak_false;
 
-  memcpy( r, ( ak_uint64* )sign, sizeof( ak_uint64 )*pctx->wc->size );
-  memcpy( s, ( ak_uint64 *)sign + pctx->wc->size, sizeof( ak_uint64 )*pctx->wc->size );
-  memcpy( h, hash, sizeof( ak_uint64 )*pctx->wc->size );
+  ak_memcpy( r, ( ak_uint64* )sign, sizeof( ak_uint64 )*pctx->wc->size );
+  ak_memcpy( s, ( ak_uint64 *)sign + pctx->wc->size, sizeof( ak_uint64 )*pctx->wc->size );
+  ak_memcpy( h, hash, sizeof( ak_uint64 )*pctx->wc->size );
 
 #ifndef LIBAKRYPT_LITTLE_ENDIAN
   for( i = 0; i < pctx->wc->size; i++ ) {
@@ -165,7 +164,7 @@
   if( pctx->ctx.hsize > 64 ) return ak_false;
 
  /* вычисляем значение хеш-кода, а после подписываем его */
-  memset( hash, 0, 64 );
+  ak_memset( hash, 0, 64 );
   if(( error = ak_hash_context_ptr( &pctx->ctx, in, size, hash )) != ak_error_ok ) return ak_false;
 
  return ak_verifykey_context_verify_hash( pctx, hash, pctx->ctx.hsize, sign );
