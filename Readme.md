@@ -1,4 +1,5 @@
 # libakrypt-mini
+
 Данный проект представляет собой небольшой фрагмент библиотеки [libakrypt](https://github.com/axelkenzo/libakrypt-0.x),
 позволяющий:
 

@@ -20,7 +20,7 @@ cmake_minimum_required( VERSION 3.2 FATAL_ERROR )
 
 set( HEAD_VERSION 0 )
 set( MAIN_VERSION 2 )
-set( MINOR_VERSION 2 )
+set( MINOR_VERSION 3 )
 
 set( MAJOR_VERSION ${HEAD_VERSION}.${MAIN_VERSION} )
 set( FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION} )
@@ -28,17 +28,22 @@ set( FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION} )
 # -------------------------------------------------------------------------------------------------- #
 # для включения опции: cmake -D LIBAKRYPT_SHARED_LIB=ON path
 # -------------------------------------------------------------------------------------------------- #
-option( LIBAKRYPT_HASH "Build the hash functions" OFF )
-option( LIBAKRYPT_SIGN "Build the digital signature functions" OFF )
-option( LIBAKRYPT_CIPHER "Build the Kuznechik encryption/decryption procedures" OFF )
-option( LIBAKRYPT_KEYS "Build the key derivation functions and procedures" OFF )
-option( LIBAKRYPT_STATIC_LIB "Build the static library" OFF )
-option( LIBAKRYPT_SHARED_LIB "Build the shared library" OFF )
-option( LIBAKRYPT_TESTS "Build the tests and example programs" OFF )
+option( LIBAKRYPT_HASH "Build the hash functions" ON )
+option( LIBAKRYPT_HASH_SLOW "Using slow version of streebog function with minimal memory usage" OFF )
+option( LIBAKRYPT_SIGN "Build the digital signature functions" ON )
+option( LIBAKRYPT_CIPHER "Build the Kuznechik encryption/decryption procedures" ON )
+option( LIBAKRYPT_KEYS "Build the key derivation functions and procedures" ON )
+option( LIBAKRYPT_STATIC_LIB "Build the static library" ON )
+option( LIBAKRYPT_SHARED_LIB "Build the shared library" ON )
+option( LIBAKRYPT_TESTS "Build the tests and example programs" ON )
 
 # -------------------------------------------------------------------------------------------------- #
 # удовлетворение зависимостей
 # -------------------------------------------------------------------------------------------------- #
+if( LIBAKRYPT_HASH_SLOW )
+  set( LIBAKRYPT_HASH ON )
+  set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DLIBAKRYPT_HASH_SLOW" )
+endif()
 if( LIBAKRYPT_TESTS )
   set( LIBAKRYPT_SIGN ON )
   set( LIBAKRYPT_CIPHER ON )
